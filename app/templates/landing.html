@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Find Your Career Path{% endblock %}
+{% block content %}
+<section class="hero">
+    <h1>Find the career that actually fits you.</h1>
+    <p class="hero-sub">Take a science-backed assessment, get matched to careers by data — not guesswork — and see the real courses and colleges that get you there.</p>
+    <div class="hero-cta">
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Get Started &mdash; It's Free</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-ghost btn-lg">I already have an account</a>
+    </div>
+</section>
+
+<section class="how-it-works">
+    <h2 class="section-title-center">How It Works</h2>
+    <div class="steps-grid">
+        <div class="step-card">
+            <span class="step-num">1</span>
+            <h3>Take the Assessment</h3>
+            <p>A quick, level-specific test covering your interests and aptitude — 10th and 12th passout students get different tests.</p>
+        </div>
+        <div class="step-card">
+            <span class="step-num">2</span>
+            <h3>Get Matched</h3>
+            <p>Our recommendation engine compares your profile against real career profiles using cosine similarity — not fixed rules.</p>
+        </div>
+        <div class="step-card">
+            <span class="step-num">3</span>
+            <h3>Explore Colleges</h3>
+            <p>See the exact courses and colleges that lead to your matched careers, with fees, contact info and apply links.</p>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <h2 class="section-title-center">Why CareerCompass</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>Science-Backed</h3>
+            <p>Built on the RIASEC (Holland Code) model, a globally recognized framework in career psychology.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Data-Driven</h3>
+            <p>Career matches are ranked using real similarity scoring, not a static quiz result page.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Real Colleges</h3>
+            <p>Every recommendation links to actual colleges across India, with fees and apply links.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Completely Free</h3>
+            <p>No cost, no hidden fees — built to make career guidance accessible to every student.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Your Results{% endblock %}
+{% block content %}
+<div class="results-header">
+    <h1>Your Assessment Results</h1>
+    <div class="results-header-actions">
+        <a href="{{ url_for('assessment.download_result', result_id=result.id) }}" class="btn btn-ghost btn-sm">Download PDF</a>
+        <a href="{{ url_for('dashboard.home') }}" class="link-back">&larr; Back to Dashboard</a>
+    </div>
+</div>
+
+<h2 class="section-title">Interest Profile (RIASEC)</h2>
+<div class="score-bars">
+    {% for letter, label in [('R','Realistic'), ('I','Investigative'), ('A','Artistic'), ('S','Social'), ('E','Enterprising'), ('C','Conventional')] %}
+    <div class="score-row">
+        <span class="score-label">{{ label }}</span>
+        <div class="bar-bg"><div class="bar-fill" style="width: {{ result.riasec_scores[letter] }}%;"></div></div>
+        <span class="score-value">{{ result.riasec_scores[letter] }}%</span>
+    </div>
+    {% endfor %}
+</div>
+
+<h2 class="section-title">Aptitude Scores</h2>
+<div class="score-bars">
+    {% for key, label in [('logical','Logical Reasoning'), ('verbal','Verbal Ability'), ('numerical','Numerical Ability')] %}
+    <div class="score-row">
+        <span class="score-label">{{ label }}</span>
+        <div class="bar-bg"><div class="bar-fill apt" style="width: {{ result.aptitude_scores[key] }}%;"></div></div>
+        <span class="score-value">{{ result.aptitude_scores[key] }}%</span>
+    </div>
+    {% endfor %}
+</div>
+
+<h2 class="section-title">Your Top Career Matches</h2>
+<div class="career-matches">
+    {% for career in result.recommended_careers %}
+    <div class="career-card">
+        <div class="career-card-header">
+            <span class="career-rank">#{{ loop.index }}</span>
+            <h3>{{ career.name }}</h3>
+            <span class="match-badge">{{ career.match_percent }}% match</span>
+        </div>
+        <p class="career-desc">{{ career.description }}</p>
+
+        {% set courses = career_courses.get(career.career_id, []) %}
+        {% if courses %}
+        <div class="course-list">
+            {% for course in courses %}
+            <div class="course-block">
+                <h4>{{ course.course_name }}</h4>
+                <p class="course-desc">{{ course.course_description }}</p>
+                {% for offering in course.offerings %}
+                <div class="college-offering">
+                    <div class="college-name">{{ offering.college_name }}</div>
+                    <div class="college-meta">{{ offering.address }}</div>
+                    <div class="college-meta">Contact: {{ offering.contact }} &middot; Fees: {{ offering.fees }}</div>
+                    <a href="{{ offering.apply_link }}" target="_blank" rel="noopener" class="apply-btn">Apply Now</a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% else %}
+    <p class="note">No recommendations yet — this result was generated before the recommendation engine was added.</p>
+    {% endfor %}
+</div>
+{% endblock %}

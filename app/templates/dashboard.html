@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="dash-header">
+    <div>
+        <h1>Welcome back, {{ user.name.split(' ')[0] }}</h1>
+        <p class="dash-sub">Your career guidance dashboard &mdash; {{ user.education_level }} passout track</p>
+    </div>
+    <a href="{{ url_for('assessment.take') }}" class="btn btn-primary">Take Assessment</a>
+</div>
+
+<div class="stat-row">
+    <div class="stat-card">
+        <span class="stat-number">{{ results|length }}</span>
+        <span class="stat-label">Assessments Taken</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">{{ user.education_level }}</span>
+        <span class="stat-label">Current Track</span>
+    </div>
+</div>
+
+<h2 class="section-title">Your Past Results</h2>
+{% if results %}
+<div class="results-list">
+    {% for r in results %}
+    <a href="{{ url_for('assessment.result', result_id=r.id) }}" class="result-row">
+        <div>
+            <span class="result-date">{{ r.created_at.strftime('%d %b %Y') }}</span>
+            <span class="result-level">{{ r.level }} Passout</span>
+        </div>
+        <div class="result-top-match">
+            {% if r.recommended_careers %}
+            Top match: <strong>{{ r.recommended_careers[0].name }}</strong> ({{ r.recommended_careers[0].match_percent }}%)
+            {% else %}
+            No recommendations available
+            {% endif %}
+        </div>
+        <span class="result-arrow">&rarr;</span>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>You haven't taken an assessment yet.</p>
+    <a href="{{ url_for('assessment.take') }}" class="btn btn-primary">Take Your First Assessment</a>
+</div>
+{% endif %}
+{% endblock %}

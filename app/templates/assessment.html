@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Assessment{% endblock %}
+{% block content %}
+<div class="assessment-header">
+    <h1>Career Assessment &mdash; {{ level }} Passout</h1>
+    <p>For the interest questions, answer honestly — there's no right or wrong. For the aptitude questions, pick what you believe is correct.</p>
+</div>
+
+<div class="progress-sticky">
+    <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
+    </div>
+    <span class="progress-label" id="progressLabel">0 of {{ questions|length }} answered</span>
+</div>
+
+<form method="POST" id="assessmentForm">
+    {% for q in questions %}
+    <div class="question-block">
+        <p class="question-text"><span class="q-index">{{ loop.index }}</span> {{ q.text }}</p>
+        <div class="options-group">
+        {% for opt in q.options %}
+        <label class="option-label">
+            <input type="radio" name="q{{ q.id }}" value="{{ opt.id }}" required>
+            <span class="option-custom"></span>
+            {{ opt.text }}
+        </label>
+        {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary btn-lg btn-submit">Submit Assessment</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('assessmentForm');
+    const totalQuestions = {{ questions|length }};
+    const fill = document.getElementById('progressFill');
+    const label = document.getElementById('progressLabel');
+
+    function updateProgress() {
+        const answeredGroups = new Set();
+        form.querySelectorAll('input[type="radio"]:checked').forEach(function (input) {
+            answeredGroups.add(input.name);
+        });
+        const answered = answeredGroups.size;
+        const pct = totalQuestions ? Math.round((answered / totalQuestions) * 100) : 0;
+        fill.style.width = pct + '%';
+        label.textContent = answered + ' of ' + totalQuestions + ' answered';
+    }
+
+    form.addEventListener('change', updateProgress);
+    updateProgress();
+});
+</script>
+{% endblock %}
