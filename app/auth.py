@@ -29,14 +29,8 @@ def register():
             flash('An account with this email already exists.', 'danger')
             return redirect(url_for('auth.register'))
 
-        education_level = request.form.get('education_level')
-        if education_level not in ('10th', '12th'):
-            flash('Please select whether you are a 10th or 12th passout.', 'danger')
-            return redirect(url_for('auth.register'))
-
-        user = User(name=name, email=email, education_level=education_level)
+        user = User(name=name, email=email, education_level='12th')
         user.set_password(password)
-        
         db.session.add(user)
         db.session.commit()
 

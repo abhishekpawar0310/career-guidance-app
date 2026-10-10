@@ -7,15 +7,13 @@ from app.pdf_report import generate_report_pdf
 
 assessment_bp = Blueprint('assessment', __name__, url_prefix='/assessment')
 
+LEVEL = '12th'
+
 
 @assessment_bp.route('/take', methods=['GET', 'POST'])
 @login_required
 def take():
-    if not current_user.education_level:
-        flash('Please complete your profile before taking the assessment.', 'danger')
-        return redirect(url_for('dashboard.home'))
-
-    level = current_user.education_level
+    level = LEVEL
 
     if request.method == 'POST':
         questions = Question.query.filter_by(level=level).all()

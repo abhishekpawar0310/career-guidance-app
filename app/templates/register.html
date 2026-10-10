@@ -15,14 +15,8 @@
 
         <label for="confirm_password">Confirm Password</label>
         <input type="password" id="confirm_password" name="confirm_password" required>
-        
-        <label for="education_level">I am a</label>
-        <select id="education_level" name="education_level" required>
-            <option value="">-- Select --</option>
-            <option value="10th">10th Passout</option>
-            <option value="12th">12th Passout</option>
-        </select>
-        <button type="submit">Register</button>
+
+        <button type="submit" class="btn btn-primary">Register</button>
     </form>
     <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a></p>
 </div>

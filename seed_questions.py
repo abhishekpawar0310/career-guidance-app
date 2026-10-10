@@ -3,42 +3,6 @@ from app.models import Question, Option
 
 app = create_app()
 
-RIASEC_10TH = [
-    ("R", "I enjoy fixing or building things with my hands (bikes, gadgets, furniture, etc.)"),
-    ("R", "I like outdoor activities such as sports, gardening, or working with machines/tools."),
-    ("R", "I would rather work with real objects and tools than sit and write reports all day."),
-    ("I", "I like figuring out how things work and solving puzzles or problems."),
-    ("I", "I enjoy science experiments and asking 'why' questions about the world around me."),
-    ("I", "I like researching a topic in depth rather than just skimming the basics."),
-    ("A", "I enjoy drawing, writing stories, making music, or other creative activities."),
-    ("A", "I like coming up with original ideas rather than following a fixed method."),
-    ("A", "I enjoy expressing my feelings through art, design, or performance."),
-    ("S", "I like helping classmates understand something they're struggling with."),
-    ("S", "I enjoy volunteering or working in team activities that help other people."),
-    ("S", "I feel good when I can listen to someone's problems and support them."),
-    ("E", "I like taking the lead in group projects and organizing what everyone should do."),
-    ("E", "I enjoy convincing others or presenting my ideas confidently."),
-    ("E", "I would enjoy starting my own small business or selling something."),
-    ("C", "I like keeping things organized — notes, schedules, files — in a neat structured way."),
-    ("C", "I'm comfortable working with numbers, spreadsheets, or detailed records."),
-    ("C", "I prefer having clear step-by-step instructions rather than figuring things out on my own."),
-]
-
-APTITUDE_10TH = [
-    ("logical", "Look at the pattern: 2, 4, 8, 16, ?. What comes next?",
-     [("20", False), ("24", False), ("32", True), ("18", False)]),
-    ("logical", "If today is Wednesday, what day will it be after 10 days?",
-     [("Friday", False), ("Saturday", True), ("Sunday", False), ("Monday", False)]),
-    ("verbal", "Choose the word that means almost the same as 'ABUNDANT'.",
-     [("Scarce", False), ("Plentiful", True), ("Empty", False), ("Broken", False)]),
-    ("verbal", "Choose the word that does NOT belong with the others.",
-     [("Apple", False), ("Banana", False), ("Carrot", True), ("Mango", False)]),
-    ("numerical", "A shirt costs Rs.800 after a 20% discount. What was its original price?",
-     [("Rs.900", False), ("Rs.960", False), ("Rs.1000", True), ("Rs.1200", False)]),
-    ("numerical", "What is 15% of 200?",
-     [("20", False), ("25", False), ("30", True), ("35", False)]),
-]
-
 RIASEC_12TH = [
     ("R", "I'd enjoy a hands-on job (engineering workshops, labs, fieldwork) more than a desk-only job."),
     ("R", "I like working with tools, machinery, or technical equipment to build or repair things."),
@@ -107,12 +71,9 @@ with app.app_context():
     Question.query.delete()
     db.session.commit()
 
-    seed_riasec('10th', RIASEC_10TH)
-    seed_aptitude('10th', APTITUDE_10TH, start_order=100)
     seed_riasec('12th', RIASEC_12TH)
     seed_aptitude('12th', APTITUDE_12TH, start_order=100)
 
     db.session.commit()
     print("Seeded successfully!")
-    print("10th:", Question.query.filter_by(level='10th').count(), "questions")
     print("12th:", Question.query.filter_by(level='12th').count(), "questions")

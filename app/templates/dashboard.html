@@ -4,7 +4,7 @@
 <div class="dash-header">
     <div>
         <h1>Welcome back, {{ user.name.split(' ')[0] }}</h1>
-        <p class="dash-sub">Your career guidance dashboard &mdash; {{ user.education_level }} passout track</p>
+        <p class="dash-sub">Your career guidance dashboard &mdash; for 12th passout students</p>
     </div>
     <a href="{{ url_for('assessment.take') }}" class="btn btn-primary">Take Assessment</a>
 </div>
@@ -15,8 +15,8 @@
         <span class="stat-label">Assessments Taken</span>
     </div>
     <div class="stat-card">
-        <span class="stat-number">{{ user.education_level }}</span>
-        <span class="stat-label">Current Track</span>
+        <span class="stat-number">12th</span>
+        <span class="stat-label">Passout Track</span>
     </div>
 </div>
 
