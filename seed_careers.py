@@ -87,17 +87,25 @@ CAREERS = [
 ]
 
 with app.app_context():
-    Career.query.delete()
-    db.session.commit()
+    created, updated = 0, 0
 
     for c in CAREERS:
-        db.session.add(Career(
-            name=c["name"],
-            description=c["description"],
-            riasec_profile=c["riasec"],
-            aptitude_profile=c["aptitude"],
-            suited_level=c["suited_level"],
-        ))
+        career = Career.query.filter_by(name=c["name"]).first()
+        if career:
+            career.description = c["description"]
+            career.riasec_profile = c["riasec"]
+            career.aptitude_profile = c["aptitude"]
+            career.suited_level = c["suited_level"]
+            updated += 1
+        else:
+            db.session.add(Career(
+                name=c["name"],
+                description=c["description"],
+                riasec_profile=c["riasec"],
+                aptitude_profile=c["aptitude"],
+                suited_level=c["suited_level"],
+            ))
+            created += 1
 
     db.session.commit()
-    print(f"Seeded {len(CAREERS)} careers successfully!")
+    print(f"Careers: {created} created, {updated} updated. Existing IDs preserved.")
